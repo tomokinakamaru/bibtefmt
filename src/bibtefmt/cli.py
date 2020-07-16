@@ -5,8 +5,18 @@ from . import version
 
 
 def run(args=None, stdin=sys.stdin, stdout=sys.stdout):
-    parse_args(args)
-    print(formatter.format(stdin.read()), file=stdout)
+    namespace = parse_args(args)
+    if namespace.path is None:
+        print(formatter.format(stdin.read()), file=stdout)
+    else:
+        content = read_file(namespace.path)
+        with open(namespace.path, 'w') as f:
+            print(formatter.format(content), file=f)
+
+
+def read_file(path):
+    with open(path) as f:
+        return f.read()
 
 
 def parse_args(args):
@@ -17,6 +27,12 @@ def parse_args(args):
         action='version',
         help='show version and exit',
         version=f'{version.MAJOR}.{version.MINOR}.{version.PATCH}'
+    )
+
+    p.add_argument(
+        'path',
+        help='path to .bib file',
+        nargs='?'
     )
 
     return p.parse_args(args)
