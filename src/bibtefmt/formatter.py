@@ -1,20 +1,17 @@
 import textwrap
+from . import analyzer
 from . import parser
 
 
 def format(text):
-    dct = {}
-    for typ, key, tags in parser.parse(text):
-        k = key, typ
-        dct.setdefault(k, set())
-        dct[k].update(tags)
-
+    entries = parser.parse(text)
+    warnings = analyzer.analyze(entries)
     blocks = []
-    for (key, typ), tags in sorted(dct.items()):
+    for (key, typ), tags in sorted(entries.items()):
         body = textwrap.indent(format_tags(tags), ' ' * 2)
         blocks.append(f'@{typ}{{{key},\n{body}\n}}')
 
-    return '\n\n'.join(blocks)
+    return '\n\n'.join(blocks), '\n'.join(warnings)
 
 
 def format_tags(tags):

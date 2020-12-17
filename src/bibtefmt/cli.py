@@ -4,15 +4,18 @@ from . import formatter
 from . import version
 
 
-def run(args=None, stdin=sys.stdin, stdout=sys.stdout):
+def run(args=None, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr):
     namespace = parse_args(args)
     if namespace.path is None:
-        print(formatter.format(stdin.read()), file=stdout)
+        entries, warnings = formatter.format(stdin.read())
+        print(entries, file=stdout)
+        print(warnings, file=stderr)
     else:
         content = read_file(namespace.path)
-        formatted = formatter.format(content)
+        entries, warnings = formatter.format(content)
         with open(namespace.path, 'w') as f:
-            print(formatted, file=f)
+            print(entries, file=f)
+        print(warnings, file=stderr)
 
 
 def read_file(path):

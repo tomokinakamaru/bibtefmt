@@ -2,7 +2,12 @@ import pyparsing as pp
 
 
 def parse(text):
-    return entries.parseString(text, parseAll=True)[0]
+    dct = {}
+    for typ, key, tags in entries.parseString(text, parseAll=True)[0]:
+        k = key, typ
+        dct.setdefault(k, set())
+        dct[k].update(tags)
+    return dct
 
 
 braced = pp.Forward()
