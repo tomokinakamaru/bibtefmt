@@ -76,6 +76,11 @@ def test_entries():
     ])
 
 
+def test_parser():
+    r = p.parse('@article{foo}')
+    assert r == (('article', 'foo', ()),)
+
+
 def _test_success(parser, text, expected):
     pr = parser.parseString(text, parseAll=True)
     assert list(pr) == expected
