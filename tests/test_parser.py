@@ -78,7 +78,7 @@ def test_entries():
 
 def test_parser():
     r = p.parse('@article{foo}')
-    assert r == (('article', 'foo', ()),)
+    assert r == {('foo', 'article'): set()}
 
 
 def _test_success(parser, text, expected):
