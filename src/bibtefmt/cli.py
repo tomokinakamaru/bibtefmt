@@ -10,8 +10,9 @@ def run(args=None, stdin=sys.stdin, stdout=sys.stdout):
         print(formatter.format(stdin.read()), file=stdout)
     else:
         content = read_file(namespace.path)
+        formatted = formatter.format(content)
         with open(namespace.path, 'w') as f:
-            print(formatter.format(content), file=f)
+            print(formatted, file=f)
 
 
 def read_file(path):
