@@ -9,13 +9,15 @@ def run(args=None, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr):
     if namespace.path is None:
         entries, warnings = formatter.format(stdin.read())
         print(entries, file=stdout)
-        print(warnings, file=stderr)
+        if warnings:
+            print(warnings, file=stderr)
     else:
         content = read_file(namespace.path)
         entries, warnings = formatter.format(content)
         with open(namespace.path, 'w') as f:
             print(entries, file=f)
-        print(warnings, file=stderr)
+        if warnings:
+            print(warnings, file=stderr)
 
 
 def read_file(path):
