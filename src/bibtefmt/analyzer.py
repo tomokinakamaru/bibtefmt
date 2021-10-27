@@ -6,7 +6,7 @@ def analyze(dct):
     ws.extend(_find_duplicate_entries(dct))
     ws.extend(_find_duplicate_tags(dct))
     ws.extend(_find_ignored_tags(dct))
-    ws.extend(_find_missing__or_conflicting_tags(dct))
+    ws.extend(_find_missing_or_conflicting_tags(dct))
     return ws
 
 
@@ -111,7 +111,7 @@ def __find_ignored_tags(key, tags, valid_tags):
         yield f'tag "{i}" in "{key}" may be ignored'
 
 
-def _find_missing__or_conflicting_tags(dct):
+def _find_missing_or_conflicting_tags(dct):
     for (key, typ), tags in dct.items():
         if typ == 'article':
             yield from __find_missing_tags(key, tags, (
