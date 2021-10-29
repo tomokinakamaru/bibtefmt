@@ -7,6 +7,7 @@ def analyze(dct):
     ws.extend(_find_duplicate_tags(dct))
     ws.extend(_find_ignored_tags(dct))
     ws.extend(_find_missing_or_conflicting_tags(dct))
+    ws.extend(_find_optional_tags(dct))
     return ws
 
 
@@ -56,7 +57,8 @@ def _find_ignored_tags(dct):
         elif typ == 'inbook':
             yield from __find_ignored_tags(key, tags, (
                 'author', 'editor', 'title', 'chapter', 'pages', 'publisher',
-                'year'
+                'year', 'volume', 'number', 'series', 'type', 'address',
+                'edition', 'month', 'note'
             ))
         elif typ == 'incollection':
             yield from __find_ignored_tags(key, tags, (
@@ -99,7 +101,7 @@ def _find_ignored_tags(dct):
                 'author', 'title', 'institution', 'year', 'type', 'number',
                 'address', 'month', 'note'
             ))
-        elif typ == '':
+        elif typ == 'unpublished':
             yield from __find_ignored_tags(key, tags, (
                 'author', 'title', 'note', 'month', 'year'
             ))
@@ -195,6 +197,74 @@ def __find_missing_tags(key, tags, required_tags):
     missing = set(required_tags) - set(_get_names(tags))
     for m in missing:
         yield f'missing tag "{m}" in "{key}"'
+
+
+def _find_optional_tags(dct):
+    for (key, typ), tags in dct.items():
+        if typ == 'article':
+            yield from __find_optional_tags(key, tags, (
+                'volume', 'number', 'pages', 'month', 'note'
+            ))
+        elif typ == 'book':
+            yield from __find_optional_tags(key, tags, (
+                'volume', 'number', 'series', 'address', 'edition', 'month',
+                'note'
+            ))
+        elif typ == 'booklet':
+            yield from __find_optional_tags(key, tags, (
+                'author', 'howpublished', 'address', 'month', 'year', 'note'
+            ))
+        elif typ == 'inbook':
+            yield from __find_optional_tags(key, tags, (
+                'volume', 'number', 'series', 'type', 'address', 'edition',
+                'month', 'note'
+            ))
+        elif typ == 'incollection':
+            yield from __find_optional_tags(key, tags, (
+                'editor', 'volume', 'number', 'series', 'type', 'chapter',
+                'pages', 'address', 'edition', 'month', 'note'
+            ))
+        elif typ == 'inproceedings':
+            yield from __find_optional_tags(key, tags, (
+                'editor', 'volume', 'number', 'series', 'pages', 'address',
+                'month', 'organization', 'publisher', 'note'
+            ))
+        elif typ == 'manual':
+            yield from __find_optional_tags(key, tags, (
+                'author', 'organization', 'address', 'edition', 'month',
+                'year', 'note'
+            ))
+        elif typ == 'mastersthesis':
+            yield from __find_optional_tags(key, tags, (
+                'type', 'address', 'month', 'note'
+            ))
+        elif typ == 'misc':
+            yield from __find_optional_tags(key, tags, (
+                'author', 'title', 'howpublished', 'month', 'year', 'note'
+            ))
+        elif typ == 'phdthesis':
+            yield from __find_optional_tags(key, tags, (
+                'type', 'address', 'month', 'note'
+            ))
+        elif typ == 'proceedings':
+            yield from __find_optional_tags(key, tags, (
+                'editor', 'volume', 'number', 'series', 'address', 'publisher',
+                'note', 'month', 'organization'
+            ))
+        elif typ == 'techreport':
+            yield from __find_optional_tags(key, tags, (
+                'type', 'number', 'address', 'month', 'note'
+            ))
+        elif typ == 'unpublished':
+            yield from __find_optional_tags(key, tags, (
+                'author', 'title', 'note', 'month', 'year'
+            ))
+
+
+def __find_optional_tags(key, tags, valid_tags):
+    ignores = set(_get_names(tags)) - set(valid_tags)
+    for i in ignores:
+        yield f'tag "{i}" in "{key}" can be removed'
 
 
 def _get_names(tags):
