@@ -1,3 +1,4 @@
+# http://bib-it.sourceforge.net/help/fieldsAndEntryTypes.php
 from .rule import Rule
 
 address = 'address'
