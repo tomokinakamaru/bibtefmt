@@ -20,7 +20,7 @@ name = pkgs[0]
 setup(
     author_email='tomoki.nakamaru@gmail.com',
     author='Tomoki Nakamaru',
-    entry_points={'console_scripts': [f'{name}={name}.__main__:run']},
+    entry_points={'console_scripts': [f'{name}={name}.__main__:bibtefmt']},
     install_requires=['pyparsing==3.0.3'],
     license='MIT',
     long_description_content_type='text/markdown',
