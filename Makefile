@@ -14,7 +14,7 @@ test: venv/bin/tox
 
 .PHONY: clean
 clean:
-	rm -rf .coverage .coverage.* venv .tox htmlcov src/*.egg-info
+	rm -rf .coverage .coverage.* venv .tox build htmlcov src/*.egg-info
 	find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
 .PHONY: build-docker-image

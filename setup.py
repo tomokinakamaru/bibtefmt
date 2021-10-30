@@ -18,10 +18,10 @@ pkgs = find_packages('src')
 name = pkgs[0]
 
 setup(
-    author_email='nakamaru@csg.ci.i.u-tokyo.ac.jp',
+    author_email='tomoki.nakamaru@gmail.com',
     author='Tomoki Nakamaru',
     entry_points={'console_scripts': [f'{name}={name}.__main__:run']},
-    install_requires=['pyparsing==2.4.6'],
+    install_requires=['pyparsing==3.0.3'],
     license='MIT',
     long_description_content_type='text/markdown',
     long_description=readme(),

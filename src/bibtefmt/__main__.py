@@ -1,4 +1,4 @@
-from .cli import run
+from .bibtefmt import bibtefmt
 
 if __name__ == '__main__':
-    run()
+    bibtefmt()
