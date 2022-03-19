@@ -14,7 +14,7 @@ def find_duplicate_entry_key(entries):
     keys = [key for _, (key, _) in entries]
     for k in set(keys):
         if 1 < keys.count(k):
-            warn(f'duplicate entry key "{k}"')
+            warn(f'duplicate entry "{k}"')
 
 
 @foreach_entry
