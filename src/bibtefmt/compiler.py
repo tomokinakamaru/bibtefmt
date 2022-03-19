@@ -1,8 +1,14 @@
-def compile(ast):
-    return Compiler().compile(ast)
+from .rule import rules
+
+
+def compile(ast, args):
+    return Compiler(args).compile(ast)
 
 
 class Compiler(object):
+    def __init__(self, args):
+        self.args = args
+
     def compile(self, node):
         if node:
             name = node.__class__.__name__
@@ -16,7 +22,11 @@ class Compiler(object):
 
     def compile_Entry(self, entry):
         type, body = self._map(entry.type, entry.body)
-        return type, (body or (None, ()))
+        key, tags = body or (None, ())
+        if self.args.no_extra_tags:
+            rule = rules[type]
+            tags = tuple(t for t in tags if t[0] in rule.known_req)
+        return type, (key, tags)
 
     def compile_EntryType(self, entry_type):
         return entry_type.name.lower()

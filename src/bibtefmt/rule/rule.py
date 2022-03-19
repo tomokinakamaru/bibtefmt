@@ -20,8 +20,8 @@ class Rule(object):
 
     @cached_property
     def known_req(self):
-        return self.req + tuple(chain(self.req_or, self.req_xor))
+        return self.req + tuple(chain(*self.req_or, *self.req_xor))
 
     @cached_property
     def known_opt(self):
-        return self.opt + tuple(chain(self.opt_xor))
+        return self.opt + tuple(chain(*self.opt_xor))

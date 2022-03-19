@@ -11,7 +11,7 @@ def bibtefmt(args=None):
     args = parse_args(args)
     bib = read(args.path)
     ast = parser.parse(bib)
-    seq = compiler.compile(ast)
+    seq = compiler.compile(ast, args)
     analyzer.find_unknown_entry_type(seq)
     analyzer.find_duplicate_entry_key(seq)
     analyzer.find_duplicate_tag(seq)
@@ -33,6 +33,12 @@ def parse_args(args):
         action='version',
         help='show version and exit',
         version=f'{version.MAJOR}.{version.MINOR}.{version.PATCH}'
+    )
+
+    p.add_argument(
+        '-n', '--no-extra-tags',
+        action='store_true',
+        help='Remove unknown/non-required tags'
     )
 
     return p.parse_args(args)
