@@ -11,6 +11,7 @@ def format(entries):
 
 def format_tags(tags):
     width = max(len(name) for name, _ in tags)
+    tags = sorted(tags)
     return ',\n'.join(format_tag(name, val, width) for name, val in tags)
 
 
