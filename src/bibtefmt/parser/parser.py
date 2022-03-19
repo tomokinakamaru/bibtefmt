@@ -41,7 +41,7 @@ braced_text.set_parse_action(create1(BracedText))
 braced_text_elems << ZeroOrMore(nonbraced_text | braced_text)
 braced_text_elems.set_parse_action(create_rec(BracedTextElements))
 
-quoted_text = QuotedString('"', escChar='\\', unquoteResults=False)
+quoted_text = QuotedString('"', '\\', unquoteResults=False, multiline=True)
 quoted_text.set_parse_action(create1(QuotedText))
 
 entry_key = spaces + CharsNotIn('#\\@,={} \t\n') + spaces
