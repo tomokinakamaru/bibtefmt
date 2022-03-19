@@ -15,4 +15,15 @@ def format_tags(tags):
 
 
 def format_tag(name, val, width):
+    val = format_val(val)
     return f'{name.ljust(width)} = {val}'
+
+
+def format_val(val):
+    val = val.replace('\n', ' ')
+    val = ' '.join(val.split())
+    if val.startswith(('{ ', '" ')):
+        val = val[0] + val[2:]
+    if val.endswith((' }', ' "')):
+        val = val[:-2] + val[-1]
+    return val
