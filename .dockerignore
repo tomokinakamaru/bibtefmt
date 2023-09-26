@@ -1,9 +1,0 @@
-/.git
-/.tox
-/build
-/htmlcov
-/venv
-/src/*.egg-info
-/.coverage
-/.coverage.*
-__pycache__
