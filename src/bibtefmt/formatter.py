@@ -1,5 +1,7 @@
 from functools import wraps
+from re import sub
 from string import ascii_lowercase
+from unicodedata import normalize
 
 from bibtefmt.bibtex import rules
 
@@ -100,9 +102,10 @@ def _get_author(entry):
             v = v.split("and")[0].strip()
             if "," in v:
                 v = v.split(",")[0].split()[-1]
-                return v.lower()
+                return _normalize_name(v)
             else:
-                return v.split()[-1].lower()
+                v = v.split()[-1]
+                return _normalize_name(v)
     return "no-author"
 
 
@@ -117,3 +120,10 @@ def _get_year(entry):
 def _unquote(lst):
     t = lst[0]
     return t[1:-1] if t.startswith(("{", '"')) else t
+
+
+def _normalize_name(name):
+    name = name.lower()
+    name = sub(r"\\.+{(.+)}", r"\1", name)
+    name = normalize("NFKD", name)
+    return name.encode("ASCII", "ignore").decode()
