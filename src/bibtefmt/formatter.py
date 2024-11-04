@@ -99,7 +99,7 @@ def _get_author(entry):
     for n, v in tags:
         if n == "author":
             v = _unquote(v)
-            v = v.split("and")[0].strip()
+            v = v.split(" and ")[0].strip()
             if "," in v:
                 v = v.split(",")[0].split()[-1]
                 return _normalize_name(v)
