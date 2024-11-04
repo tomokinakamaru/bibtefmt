@@ -126,4 +126,6 @@ def _normalize_name(name):
     name = name.lower()
     name = sub(r"\\.+{(.+)}", r"\1", name)
     name = normalize("NFKD", name)
-    return name.encode("ASCII", "ignore").decode()
+    name = name.encode("ASCII", "ignore").decode()
+    name = "".join(c for c in name if c in ascii_lowercase)
+    return name
