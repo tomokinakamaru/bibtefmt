@@ -30,16 +30,24 @@ def sort_entries(entries):
 def assign_keys(entries):
     idx = {}
     for entry in entries:
-        auth = _get_author(entry)
-        year = _get_year(entry)
-        d = idx.setdefault(auth, {})
-        d.setdefault(year, []).append(entry)
+        _, key, _ = entry
+        if key.startswith("_"):
+            d = idx.setdefault(key, {})
+            d.setdefault(None, []).append(entry)
+        else:
+            auth = _get_author(entry)
+            year = _get_year(entry)
+            d = idx.setdefault(auth, {})
+            d.setdefault(year, []).append(entry)
 
     out = []
     for auth in idx:
         for year in idx[auth]:
             es = idx[auth][year]
-            if len(es) == 1:
+            if year is None:
+                typ, _, tags = es[0]
+                out.append([typ, auth, tags])
+            elif len(es) == 1:
                 typ, _, tags = es[0]
                 key = f"{auth}{year}"
                 out.append([typ, key, tags])
