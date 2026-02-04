@@ -54,8 +54,9 @@ def _read(path):
 
 
 def _write(out, path):
+    end = "\n" if out else ""
     if path:
         with open(path, "w") as f:
-            print(out, file=f)
+            print(out, end=end, file=f)
     else:
-        print(out)
+        print(out, end=end)
